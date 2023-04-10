@@ -12,23 +12,23 @@ export default function AddUserForm({formData, setFormData}){
     const queryClient = useQueryClient()
     
     const addMutation = useMutation(añadirUsuario, {
-        onSuccess:()=>{
+        onSuccess:()=>{ /* actualizo la tabla */
             queryClient.prefetchQuery('usuarios', getUsuarios)
         }
     })
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        if(Object.keys(formData).length==0)return console.log("Dont have Form Data");
+        if(Object.keys(formData).length==0) return console.log("No hay datos en el Formulario");
         console.log(formData)
-        let{primernombre,primerapellido,elcorreo,fechaNacimiento,estado}=formData;
-
+        let{primernombre,primerapellido,elcorreo,fechanacimiento,status}=formData; 
+        /* toman los datos de la propiedad 'name:' del formulario */
         const model={
             nombre: primernombre,
             apellido: primerapellido,
             correo: elcorreo,
-            fechaNacimiento: fechaNacimiento,
-            estado: estado??"Activo"
+            fechaNacimiento: fechanacimiento,
+            estado: status ?? "Activo" /* el valor por default será 'Activo' */
         }
 
         addMutation.mutate(model)
@@ -51,19 +51,19 @@ export default function AddUserForm({formData, setFormData}){
                 <input type="text" onChange={setFormData} name="elcorreo" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Correo"/>
             </div>
             <div className="input-type">
-                <input type="date" onChange={setFormData} name="fechanacimiento" className="border px-5 py-3 focus:outline-none rounded-md" placeholder="Fecha de Nacimiento"/>
+                <input type="date" onChange={setFormData} name="fechanacimiento" className="border px-5 py-3 focus:outline-none rounded-md"/>
             </div>
 
             <div className="flex gap-10 items-center">
                 <div className="form-check">
                     <input type="radio" onChange={setFormData} value="Activo" id="radioDefault1" name="status" className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:border-gray-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"/>
-                    <label htmlFor="rafioDefault1" className="inline-block tet-gray-800">
+                    <label htmlFor="radioDefault1" className="inline-block tet-gray-800">
                         Activo
                     </label>
                 </div>
                 <div className="form-check">
                     <input type="radio" onChange={setFormData} value="Inactivo" id="radioDefault2" name="status" className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:border-gray-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"/>
-                    <label htmlFor="rafioDefault2" className="inline-block tet-gray-800">
+                    <label htmlFor="radioDefault2" className="inline-block tet-gray-800">
                         Inactivo
                     </label>
                 </div>

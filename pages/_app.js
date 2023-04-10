@@ -1,7 +1,7 @@
 import '../styles/globals.css'
-import { QueryClientProvider, QueryClient } from 'react-query';
-import {store} from '../redux/store';
-import { Provider } from 'react-redux';
+import { QueryClientProvider, QueryClient } from 'react-query'; /* con el cliente, el Query react podrá almacenar la data dentro del objeto */
+import {store} from '../redux/store'; /* para ingresar a lso valores de 'store' */
+import { Provider } from 'react-redux'; /* con el componente 'Provider' puedo pasar store a los demás componenetes */
 
 //crear un cliente
 const queryClient = new QueryClient();

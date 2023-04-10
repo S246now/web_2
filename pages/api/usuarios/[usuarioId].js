@@ -1,3 +1,4 @@
+/* For a Single user, según el Id */
 import connectMongo from "../../../database/conn"
 import { getUsuario, putUsuario, deleteUsuario } from "../../../database/controller";
 
@@ -18,8 +19,8 @@ export default async function handler(req, res) {
             deleteUsuario(req,res)
             break;
         default:
-            res.setHeader('Allow',['GET','POST','PUT','DELETE']);
-            res.status(405).end('Método ${method} NO Permitido');
+            res.setHeader('Allow',['GET','PUT','DELETE']);
+            res.status(405).end(`Método ${method} NO Permitido`);
             break;
     }
 }

@@ -13,14 +13,15 @@ const formReducer = (state, event) => {
 
 export default function Form(){
 
-    const[formData, setFormData] = useReducer(formReducer,{});
+    const[formData, setFormData] = useReducer(formReducer,{})
     const formId = useSelector((state)=>state.app.client.formId)
     /* const flag=false;  cuando el valor cambia, el botón respectivo se hace visible */
 
     return(
         <div className='container mx-auto py-5'>
-            {/* Control el botón a mostrar */}
-            {formId?UpdateUserForm({formId,formData,setFormData}):AddUserForm(({formData, setFormData}))}
+            {/* Control de botón a mostrar */}
+            {/* si hay un valor en formId  mostraré el Formulario de Actualizar o de Añadir*/}
+            {formId?UpdateUserForm({formId,formData,setFormData}):AddUserForm({formData, setFormData})}
         </div>
     )
 }

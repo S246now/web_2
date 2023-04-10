@@ -1,15 +1,16 @@
+
 /* import data from '../database/data.json' */
 import { getUsuarios } from '../lib/helper'
 import {useQuery} from 'react-query'
 import {useSelector, useDispatch} from 'react-redux'
-import {toggleChangeAction, updateAction} from '../redux/reducer'
+import {toggleChangeAction, updateAction, deleteAction} from '../redux/reducer'
 
 export default function Table(){
 
     /* getUsuario().then(res=>console.log(res)) */
-    const {isLoading, isError, data, error} = useQuery('usuarios', getUsuarios)
+    const {isLoading, isError, data} = useQuery('usuarios', getUsuarios)
 
-    if(isLoading) return <div>Cargando Usuario...</div>;
+    if(isLoading) return <div>Cargando Usuarios...</div>;
     if(isError) return <div>Ha Ocurrido un Error</div>
 
     return(
@@ -48,13 +49,19 @@ export default function Table(){
 
 function Tr({_id,nombre,apellido,correo,fechaNacimiento,estado}){
 
-    const visible = useSelector((state)=>state.app.client.toggleForm)
+    const visible = useSelector((state)=>state.app.client.toggleForm) /* para cambiar el 'state', necesito el Dispatch */
     const dispatch = useDispatch()
 
     const onUpdate=()=>{
-        dispatch(toggleChangeAction())
+        dispatch(toggleChangeAction(_id))
         if(visible){
             dispatch(updateAction(_id))
+        }
+    }
+
+    const onDelete=()=>{
+        if (visible) {
+            dispatch(deleteAction(_id))
         }
     }
     
@@ -77,8 +84,12 @@ function Tr({_id,nombre,apellido,correo,fechaNacimiento,estado}){
                 <button className="cursor"><span className={'text-white px-5 py-1 rounded-full'}>{estado||"No proporcionado"}</span></button>
             </td>
             <td className="px-16 py-2 flex justify-around gap-5">
-                <button className="cursor" onClick={onUpdate}>Editar</button>
-                <button className="cursor">Eliminar</button>
+                <button className="cursor" onClick={onUpdate}>
+                    Editar
+                </button>
+                <button className="cursor" onClick={onDelete}>
+                    Eliminar
+                </button>
             </td>
         </tr>
     )

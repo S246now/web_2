@@ -4,17 +4,35 @@ import Table from '../components/table';
 import Form from '../components/form';
 import { useState } from 'react';
 import { useSelector,  useDispatch } from 'react-redux';
-import { toggleChangeAction } from '../redux/reducer';
+import { deleteAction, toggleChangeAction } from '../redux/reducer';
+import { eliminarUsuario, getUsuarios } from '../lib/helper';
+import { useQueryClient } from 'react-query';
+
 
 export default function Home() {
 
   /* const [visible,setVisible] = useState(false) */
   const visible = useSelector((state)=>state.app.client.toggleForm)
+  const deleteId = useSelector(state => state.app.client.deleteId)
+  const queryClient = useQueryClient()
   const dispatch = useDispatch()
-
+ 
   const handler=()=>{ /* funciona para qeu el botón controle la visibilidad del formulario */
     /* setVisible(!visible)  *//* (visible? false:true) si es true devuelve false, caso contrario devuelve true */
     dispatch(toggleChangeAction())
+  }
+
+  const deletehandler = async ()=>{
+    if (deleteId) {
+      await eliminarUsuario(deleteId)
+      await queryClient.prefetchQuery('usuarios', getUsuarios)
+      await dispatch(deleteAction(null))
+    }
+  }
+
+  const cancelhandler = async ()=>{
+    console.log("Cancelado")
+    await dispatch(deleteAction(null))
   }
 
   return (
@@ -36,20 +54,31 @@ export default function Home() {
               Agregar usuario
             </button>
           </div>
+          {deleteId? DeleteComponent({deletehandler,cancelhandler}):<></>}
         </div>
 
         {/* collapsable form */}
-        {visible? <Form></Form>:<></>} {/* si es visible, mostrar, caso contrario no */}
+        {visible? <Form></Form>:<></>} {/* si visible true, mostrar, caso contrario no */}
 
         {/* table */}
         <div className='container mx-auto'>
           <Table></Table>
         </div>
-
+          
       </main>
 
       <footer className={styles.footer}>
       </footer>
+    </div>
+  )
+}
+
+function DeleteComponent({deletehandler,cancelhandler}){
+  return(
+    <div>
+      <p>Eliminar?</p>
+      <button onClick={deletehandler}>Sí</button>
+      <button onClick={cancelhandler}>No</button>
     </div>
   )
 }
