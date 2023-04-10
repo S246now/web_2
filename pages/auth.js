@@ -1,7 +1,16 @@
 import Form from '../components/form';
+import { useState } from 'react';
 
 
-export default function Login(){
+export default function Login() {
+
+    /* variable de estado para guardar si el usuario ha iniciado sesión o no */
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    function handleLogin() {
+        setIsLoggedIn(true);
+    }
+
     return(
         <div>
             <div>
@@ -28,11 +37,9 @@ export default function Login(){
                     <label>Contraseña:</label>
                     <input type="password" name="contraseña" placeholder="ingrese su contraseña"></input>
 
-                    <button type="submit">Ingresar</button>
+                    <button type="submit" onClick={handleLogin}>Ingresar</button>
                 </form>
             </div>
         </div> 
     )
 }
-
-

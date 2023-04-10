@@ -7,9 +7,22 @@ import { useSelector,  useDispatch } from 'react-redux';
 import { deleteAction, toggleChangeAction } from '../redux/reducer';
 import { eliminarUsuario, getUsuarios } from '../lib/helper';
 import { useQueryClient } from 'react-query';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 
 export default function Home() {
+
+  const router = useRouter();
+/* verifica si el usuario ha iniciado sesión para acceder a esta página 
+Si el usuario no ha iniciado sesión, redirige a '/auth' */
+  useEffect(() => {
+    const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+        if (!isLoggedIn) {
+            router.push('/auth');
+        }
+  }, []);
 
   /* const [visible,setVisible] = useState(false) */
   const visible = useSelector((state)=>state.app.client.toggleForm)
@@ -34,6 +47,7 @@ export default function Home() {
     console.log("Cancelado")
     await dispatch(deleteAction(null))
   }
+  
 
   return (
     <div className={styles.container}>
@@ -64,11 +78,12 @@ export default function Home() {
         <div className='container mx-auto'>
           <Table></Table>
         </div>
-          
       </main>
 
       <footer className={styles.footer}>
+        <Link href='/auth'> Logout </Link>
       </footer>
+      
     </div>
   )
 }
