@@ -4,7 +4,8 @@ const usuarioSchema = new Schema({
     nombre:String,
     apellido:String,
     correo:String,
-    fechaNacimiento:Date,
+    fechaNacimiento:String,
+    contraseña:String,
     estado:String
 });
 

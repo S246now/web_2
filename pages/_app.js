@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from 'react-query'; /* con el client
 import {store} from '../redux/store'; /* para ingresar a lso valores de 'store' */
 import { Provider } from 'react-redux'; /* con el componente 'Provider' puedo pasar store a los demás componenetes */
 
+
 //crear un cliente
 const queryClient = new QueryClient();
 

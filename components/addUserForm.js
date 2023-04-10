@@ -21,13 +21,14 @@ export default function AddUserForm({formData, setFormData}){
         e.preventDefault();
         if(Object.keys(formData).length==0) return console.log("No hay datos en el Formulario");
         console.log(formData)
-        let{primernombre,primerapellido,elcorreo,fechanacimiento,status}=formData; 
+        let{primernombre,primerapellido,elcorreo,fechanacimiento,password,status}=formData; 
         /* toman los datos de la propiedad 'name:' del formulario */
         const model={
             nombre: primernombre,
             apellido: primerapellido,
             correo: elcorreo,
             fechaNacimiento: fechanacimiento,
+            contraseña:password,
             estado: status ?? "Activo" /* el valor por default será 'Activo' */
         }
 
@@ -52,6 +53,9 @@ export default function AddUserForm({formData, setFormData}){
             </div>
             <div className="input-type">
                 <input type="date" onChange={setFormData} name="fechanacimiento" className="border px-5 py-3 focus:outline-none rounded-md"/>
+            </div>
+            <div className="input-type">
+                <input type="password" onChange={setFormData} name="password" className="border px-5 py-3 focus:outline-none rounded-md" placeholder="Contraseña"/>
             </div>
 
             <div className="flex gap-10 items-center">
