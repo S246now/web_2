@@ -1,8 +1,6 @@
 import { MongoClient } from 'mongodb';
-import { useRouter } from 'next/router';
 
 async function LoginHandler(req, res) {
-  const router = useRouter();
 
   if (req.method === 'POST') {
     const { email, password } = req.body;
@@ -25,7 +23,7 @@ async function LoginHandler(req, res) {
 
     // If the credentials are correct, return a success message
     return res.status(200).json({ message: 'Login successful' });
-    router.push('/');
+    
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }

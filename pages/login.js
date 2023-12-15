@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 function LoginPage() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,9 +19,8 @@ function LoginPage() {
       });
 
       if (response.status === 200) {
-        // If login is successful, redirect to the dashboard or perform any other action
         console.log('Login successful');
-        // router.push("/dashboard");
+        router.push('/');
       } else {
         // If login fails, handle the error (display a message, etc.)
         const data = await response.json();
